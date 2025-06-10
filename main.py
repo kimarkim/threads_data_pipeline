@@ -8,19 +8,20 @@ def main():
     print("=== Threads Scraper ===")
     
     # Get user credentials
-    print("Insert your Threads username")
+    print("Insert your Threads username: ")
     username = input()
-    print("Insert your Threads password")
+    print("Insert your Threads password: ")
     password = input()
     
     # Get search keyword
+    print("Insert the keyword you want to search: ")
     keyword = input().strip()
     if not keyword:
         keyword = "韓国"
     
     # Get number of posts to scrape
     try:
-        print("How many posts do you want to scrape?")
+        print("How many posts do you want to scrape?: ")
         num_posts = int(input())
     except ValueError:
         num_posts = 10
