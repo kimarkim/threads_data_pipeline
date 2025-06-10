@@ -98,4 +98,5 @@ class ThreadsScraper:
         # Finish scraping process and close driver
         print("Scraping finished.")
         self.driver.quit()
-        return list(self.scraped_posts_text)[:num_posts]
+        final_data= list(self.scraped_posts_text)[:num_posts]
+        return [{'id': i, 'post': post_content} for i, post_content in enumerate(final_data, start=1)]
