@@ -1,5 +1,5 @@
-import os
 import time
+import datetime
 import random
 from selenium import webdriver
 from selenium.webdriver.common.by import By
@@ -120,7 +120,8 @@ class ThreadsScraper:
             self.driver.quit()
             return False
 
-    def scrape(self, num_posts, max_scrolls=20):
+
+    def scrape(self, num_posts, start_id=1, max_scrolls=20):
         self.scraped_posts_text.clear()
         # More robust selectors
         selector = "div[class*='x1a6qonq'] span[class*='x1lliihq'][dir='auto'] span"
@@ -136,7 +137,7 @@ class ThreadsScraper:
 
         scroll_count = 0
         consecutive_small_scrolls = 0
-        
+
         while len(self.scraped_posts_text) < num_posts and scroll_count < max_scrolls:
             try:
                 self.html_doc = self.driver.page_source
@@ -203,10 +204,12 @@ class ThreadsScraper:
                 scroll_count += 1
                 time.sleep(random.uniform(2, 5))
                 continue
-
+        
+        upload_date = datetime.datetime.now()
         final_data = list(self.scraped_posts_text)[:num_posts]
-        return [{'id': i, 'post': post_content} for i, post_content in enumerate(final_data, start=1)]
+        return [{'id': i, 'upload date': upload_date.strftime('%Y.%b.%a.%H.%M'), 'post': post_content} for i, post_content in enumerate(final_data, start=start_id)]
 
+        
     def close_session(self):
         print("\nAll tasks finished. Closing the browser.")
         
